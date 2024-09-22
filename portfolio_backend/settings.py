@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1+4tf8^j1l)=j57r#coes5v2%#7g&)&5wye!q68at8ja*ye38v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['epheyhertzportfoliobackend.onrender.com','127.0.0.1']
 
@@ -152,6 +152,7 @@ STATICFILES_DIRS = [  # Additional locations for static files
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 # MEDIA_ROOT=os.path.join(BASE_DIR, 'portfolio_backend/media')
+load_dotenv()
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
