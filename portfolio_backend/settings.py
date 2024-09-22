@@ -123,7 +123,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Change this to your frontend URL
+    "http://localhost:3000", 
+    "https://epheyportfolio.vercel.app", # Change this to your frontend URL
 ]
 
 
