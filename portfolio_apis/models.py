@@ -7,7 +7,8 @@ class Project(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     technologies = models.JSONField(default=list, blank=True, null=True)  # Make sure default is a valid list
-    image = models.ImageField(upload_to='images/', null=True, blank=True)  # To store project screenshots
+    image = models.ImageField(null=True, blank=True)  # To store project screenshots
+    image_url = models.URLField(blank=True, null=True)  # Link to the project (GitHub or live demo)
     link = models.URLField(blank=True, null=True)  # Link to the project (GitHub or live demo)
     demolink = models.URLField(blank=True, null=True)  # Link to the project (GitHub or live demo)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -88,7 +89,8 @@ class Testimonial(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
     company = models.CharField(max_length=100, blank=True, null=True)
     text = models.TextField()  # The testimonial content
-    photo = models.ImageField(upload_to='images/', blank=True, null=True)
+    photo = models.ImageField( blank=True, null=True)
+    photo_url = models.URLField(blank=True, null=True) 
 
     def __str__(self):
         return f"{self.name} - {self.role}"

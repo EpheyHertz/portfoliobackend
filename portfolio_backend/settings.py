@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,13 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1+4tf8^j1l)=j57r#coes5v2%#7g&)&5wye!q68at8ja*ye38v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['epheyhertzportfoliobackend.onrender.com']
+ALLOWED_HOSTS = ['epheyhertzportfoliobackend.onrender.com','127.0.0.1']
 
 
 # Application definition
-
+load_dotenv()
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
     'corsheaders',
     'rest_framework',
     'portfolio_apis',
@@ -79,12 +81,28 @@ WSGI_APPLICATION = 'portfolio_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+load_dotenv()
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('MYSQL_DATABASE'),
+        'USER': os.getenv('MYSQL_USER'),
+        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
+        'HOST': os.getenv('MYSQL_HOST'),
+        'PORT': os.getenv('MYSQL_PORT'),
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'railway',
+#         'USER': 'root',
+#         'PASSWORD': 'PUewmjAMfhPnuLybfWbDdRxpDWuqQbUm',
+#         'HOST': 'autorack.proxy.rlwy.net',
+#         'PORT': '44610',  # or 44610, based on what is correct
+#     }
+# }
 
 
 # Password validation
@@ -132,8 +150,22 @@ STATICFILES_DIRS = [  # Additional locations for static files
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
-MEDIA_URL= '/media/'
-MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
+
+# MEDIA_ROOT=os.path.join(BASE_DIR, 'portfolio_backend/media')
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
+AWS_DEFAULT_ACL = os.getenv('AWS_DEFAULT_ACL')
+AWS_QUERYSTRING_AUTH = os.getenv('AWS_QUERYSTRING_AUTH') == 'True'
+AWS_S3_OBJECT_PARAMETERS = eval(os.getenv('AWS_S3_OBJECT_PARAMETERS'))
+
+AWS_S3_ENDPOINT = f's3.{AWS_S3_REGION_NAME}.backblazeb2.com'
+AWS_S3_ENDPOINT_URL = f'https://{AWS_S3_ENDPOINT}'
+
+# AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
+# MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_ENDPOINT}/media/public/'
 
 
 # Default primary key field type
